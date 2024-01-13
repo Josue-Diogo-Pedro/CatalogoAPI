@@ -1,4 +1,5 @@
 ﻿using CatalogoAPI.Context;
+using CatalogoAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CatalogoAPI.Controllers;
@@ -14,5 +15,15 @@ public class ProdutosController : ControllerBase
 		_context = context;
 	}
 
+	[HttpGet]
+	public ActionResult<IEnumerable<Produto>> Get()
+	{
+		var produtos = _context.Produtos.ToList();
+		if(produtos is null)
+		{
+			return NotFound("Produtos não encontrados...");
+		}
 
+		return produtos;
+	}
 }
