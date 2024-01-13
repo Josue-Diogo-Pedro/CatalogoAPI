@@ -1,6 +1,7 @@
 ﻿using CatalogoAPI.Context;
 using CatalogoAPI.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace CatalogoAPI.Controllers;
 
@@ -48,5 +49,17 @@ public class ProdutosController : ControllerBase
 
 		return new CreatedAtRouteResult("ObterProduto",
 			new { id = produto.ProdutoId, produto });
+	}
+
+	[HttpPut]
+	public ActionResult Put(int id, Produto produto)
+	{
+		if (id != produto.ProdutoId)
+			return BadRequest();
+
+		_context.Entry(produto).State = EntityState.Modified;
+		_context.SaveChanges();
+
+		return Ok(produto);
 	}
 }
