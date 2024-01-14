@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CatalogoAPI.Controllers;
 
-[Route("[controller]")]
+[Route("api/[controller]")]
 [ApiController]
 public class ProdutosController : ControllerBase
 {
@@ -17,7 +17,7 @@ public class ProdutosController : ControllerBase
 	}
 
 	[HttpGet]
-	public ActionResult<IEnumerable<Produto>> Get()
+    public ActionResult<IEnumerable<Produto>> Get()
 	{
 		try
 		{
