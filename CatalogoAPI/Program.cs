@@ -1,4 +1,5 @@
 using CatalogoAPI.Context;
+using CatalogoAPI.Services;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 
@@ -19,6 +20,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+
+builder.Services.AddTransient<IMeuServico, MeuServico>();
 
 var app = builder.Build();
 

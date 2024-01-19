@@ -1,5 +1,6 @@
 ﻿using CatalogoAPI.Context;
 using CatalogoAPI.Models;
+using CatalogoAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,6 +16,12 @@ public class CategoriasController : ControllerBase
 	{
 		_context = context;
 	}
+
+    [HttpGet("saudacao/{nome}")]
+    public ActionResult<string> GetSaudacao([FromServices] IMeuServico meuServico, string nome)
+    {
+        return meuServico.Saudacao(nome);
+    }
 
 	[HttpGet("produtos")]
 	public async Task<ActionResult<IEnumerable<Categoria>>> GetCategoriasProdutos()
