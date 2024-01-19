@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace CatalogoAPI.Models;
 
@@ -23,6 +24,7 @@ public class Produto
     [Column(TypeName = "decimal(10,2)")]
     public decimal Preco { get; set; }
 
+    //[BindNever]
     [Required]
     [StringLength(300)]
     public string? ImagemUrl { get; set; }

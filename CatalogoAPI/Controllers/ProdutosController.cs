@@ -1,6 +1,7 @@
 ﻿using CatalogoAPI.Context;
 using CatalogoAPI.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
 
 namespace CatalogoAPI.Controllers;
@@ -44,6 +45,7 @@ public class ProdutosController : ControllerBase
 		return produto;
     }
 
+	//public async Task<ActionResult<Produto>> GetById8(int id, [BindRequired]string nome)
     [HttpGet("{id:int:min(1)}", Name = "ObterProduto")]
 	public async Task<ActionResult<Produto>> GetById(int id)
 	{
