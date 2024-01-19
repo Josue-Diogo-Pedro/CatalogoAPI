@@ -37,7 +37,14 @@ public class ProdutosController : ControllerBase
 		
 	}
 
-	[HttpGet("{id:int}", Name = "ObterProduto")]
+    [HttpGet("{valor:alpha}")]
+    public ActionResult<Produto> Get2()
+    {
+		var produto = _context.Produtos.FirstOrDefault();
+		return produto;
+    }
+
+    [HttpGet("{id:int:min(1)}", Name = "ObterProduto")]
 	public ActionResult<Produto> GetById(int id)
 	{
 		try
@@ -95,7 +102,7 @@ public class ProdutosController : ControllerBase
 		
 	}
 
-	[HttpDelete("{id:int}")]
+	[HttpDelete("{id:int:min(1)}")]
 	public ActionResult Delete(int id)
 	{
 		try
