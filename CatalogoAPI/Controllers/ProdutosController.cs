@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 namespace CatalogoAPI.Controllers;
 
 [Route("api/[controller]")]
-[ApiController]
+//[ApiController]
 public class ProdutosController : ControllerBase
 {
     private readonly AppDbContext _context;
@@ -65,12 +65,12 @@ public class ProdutosController : ControllerBase
 	}
 
 	[HttpPost]
-	public async Task<ActionResult> Post(Produto produto)
+	public async Task<ActionResult> Post([FromBody]Produto produto)
 	{
 		try
 		{
-            if (produto is null)
-                return BadRequest();
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
 
             await _context.Produtos.AddAsync(produto);
             await _context.SaveChangesAsync();
