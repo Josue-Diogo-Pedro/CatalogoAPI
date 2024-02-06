@@ -15,7 +15,7 @@ public class Produto
 
     [Required(ErrorMessage = "O nome é obrigatório!")]
     [StringLength(80, ErrorMessage = "O nome deve ter entre 5 e 20 caracteres", MinimumLength = 5)]
-    [PrimeiraLetraMaiuscula]
+    //[PrimeiraLetraMaiuscula]
     public string? Nome { get; set; }
 
     [Required]
