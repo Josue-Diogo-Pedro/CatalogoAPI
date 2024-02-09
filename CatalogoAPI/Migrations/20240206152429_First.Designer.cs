@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CatalogoAPI.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240113164254_PopulaProdutos")]
-    partial class PopulaProdutos
+    [Migration("20240206152429_First")]
+    partial class First
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

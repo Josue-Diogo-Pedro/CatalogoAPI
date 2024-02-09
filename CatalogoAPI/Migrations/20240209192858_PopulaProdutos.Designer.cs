@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CatalogoAPI.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240113031353_DataAnnotations")]
-    partial class DataAnnotations
+    [Migration("20240209192858_PopulaProdutos")]
+    partial class PopulaProdutos
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
