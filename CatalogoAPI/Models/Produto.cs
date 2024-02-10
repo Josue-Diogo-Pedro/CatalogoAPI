@@ -1,9 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using CatalogoAPI.Validations;
 
 namespace CatalogoAPI.Models;
 
@@ -44,14 +42,15 @@ public class Produto : IValidatableObject
         if (!string.IsNullOrEmpty(this.Nome))
         {
             var primeiraLetra = this.Nome[0].ToString();
-            if(primeiraLetra != primeiraLetra.ToUpper())
+            if (primeiraLetra != primeiraLetra.ToUpper())
             {
                 yield return new ValidationResult("A primeira letra do produto deve ser maiuscula",
                     new[] { nameof(this.Nome) });
             }
         }
 
-        if(this.Estoque <= 0){
+        if (this.Estoque <= 0)
+        {
             yield return new ValidationResult("O estoque deve ser maior que zero",
                 new[] { nameof(this.Estoque) });
         }
