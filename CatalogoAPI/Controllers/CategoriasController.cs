@@ -11,11 +11,21 @@ namespace CatalogoAPI.Controllers;
 public class CategoriasController : ControllerBase
 {
     private readonly AppDbContext _context;
+    private readonly IConfiguration _Configutation;
 
-	public CategoriasController(AppDbContext context)
+	public CategoriasController(AppDbContext context, IConfiguration configuration)
 	{
 		_context = context;
+        _Configutation = configuration;
 	}
+
+    [HttpGet("autor")]
+    public string GetAutor()
+    {
+        var autor = $"Autor: {_Configutation["autor"]}";
+        var conexao = $"Conexão: {_Configutation["ConnectionStrings:DefaultConnection"]}";
+        return conexao;
+    }
 
     [HttpGet("saudacao/{nome}")]
     public ActionResult<string> GetSaudacao([FromServices] IMeuServico meuServico, string nome)

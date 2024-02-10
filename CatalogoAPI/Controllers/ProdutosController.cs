@@ -1,7 +1,7 @@
 ﻿using CatalogoAPI.Context;
+using CatalogoAPI.Filters;
 using CatalogoAPI.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
 
 namespace CatalogoAPI.Controllers;
@@ -10,7 +10,7 @@ namespace CatalogoAPI.Controllers;
 //[ApiController]
 public class ProdutosController : ControllerBase
 {
-    private readonly AppDbContext _context;
+	private readonly AppDbContext _context;
 
 	public ProdutosController(AppDbContext context)
 	{
@@ -18,70 +18,71 @@ public class ProdutosController : ControllerBase
 	}
 
 	[HttpGet]
-    public async Task<ActionResult<IEnumerable<Produto>>> Get()
+	[ServiceFilter(typeof(ApiLoggingFilter))]
+	public async Task<ActionResult<IEnumerable<Produto>>> Get()
 	{
 		try
 		{
-            var produtos = await _context.Produtos.AsNoTracking().ToListAsync();
-            if (produtos is null)
-            {
-                return NotFound("Produtos não encontrados...");
-            }
+			var produtos = await _context.Produtos.AsNoTracking().ToListAsync();
+			if (produtos is null)
+			{
+				return NotFound("Produtos não encontrados...");
+			}
 
-            return produtos;
-        }
+			return produtos;
+		}
 		catch (Exception)
 		{
 
 			return StatusCode(StatusCodes.Status500InternalServerError, "Erro ao devolver a solicitação");
 		}
-		
+
 	}
 
-    [HttpGet("{valor:alpha}")]
-    public async Task<ActionResult<Produto>> Get2()
-    {
+	[HttpGet("{valor:alpha}")]
+	public async Task<ActionResult<Produto>> Get2()
+	{
 		var produto = await _context.Produtos.FirstOrDefaultAsync();
 		return produto;
-    }
+	}
 
 	//public async Task<ActionResult<Produto>> GetById8(int id, [BindRequired]string nome)
-    [HttpGet("{id:int:min(1)}", Name = "ObterProduto")]
+	[HttpGet("{id:int:min(1)}", Name = "ObterProduto")]
 	public async Task<ActionResult<Produto>> GetById(int id)
 	{
 		try
 		{
-            var produto = await _context.Produtos.FirstOrDefaultAsync(p => p.ProdutoId == id);
-            if (produto is null)
-                return NotFound("Produto não encontrado");
+			var produto = await _context.Produtos.FirstOrDefaultAsync(p => p.ProdutoId == id);
+			if (produto is null)
+				return NotFound("Produto não encontrado");
 
-            return produto;
-        }
+			return produto;
+		}
 		catch (Exception)
 		{
-            return StatusCode(StatusCodes.Status500InternalServerError, "Erro ao devolver a solicitação");
-        }
-		
+			return StatusCode(StatusCodes.Status500InternalServerError, "Erro ao devolver a solicitação");
+		}
+
 	}
 
 	[HttpPost]
-	public async Task<ActionResult> Post([FromBody]Produto produto)
+	public async Task<ActionResult> Post([FromBody] Produto produto)
 	{
 		try
 		{
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+			if (!ModelState.IsValid)
+				return BadRequest(ModelState);
 
-            await _context.Produtos.AddAsync(produto);
-            await _context.SaveChangesAsync();
+			await _context.Produtos.AddAsync(produto);
+			await _context.SaveChangesAsync();
 
-            return new CreatedAtRouteResult("ObterProduto",
-                new { id = produto.ProdutoId, produto });
-        }
+			return new CreatedAtRouteResult("ObterProduto",
+				new { id = produto.ProdutoId, produto });
+		}
 		catch (Exception)
 		{
-            return StatusCode(StatusCodes.Status500InternalServerError, "Erro ao devolver a solicitação");
-        }
+			return StatusCode(StatusCodes.Status500InternalServerError, "Erro ao devolver a solicitação");
+		}
 	}
 
 	[HttpPut]
@@ -89,19 +90,19 @@ public class ProdutosController : ControllerBase
 	{
 		try
 		{
-            if (id != produto.ProdutoId)
-                return BadRequest();
+			if (id != produto.ProdutoId)
+				return BadRequest();
 
-            _context.Entry(produto).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
+			_context.Entry(produto).State = EntityState.Modified;
+			await _context.SaveChangesAsync();
 
-            return Ok(produto);
-        }
+			return Ok(produto);
+		}
 		catch (Exception)
 		{
-            return StatusCode(StatusCodes.Status500InternalServerError, "Erro ao devolver a solicitação");
-        }
-		
+			return StatusCode(StatusCodes.Status500InternalServerError, "Erro ao devolver a solicitação");
+		}
+
 	}
 
 	[HttpDelete("{id:int:min(1)}")]
@@ -109,19 +110,19 @@ public class ProdutosController : ControllerBase
 	{
 		try
 		{
-            var produto = await _context.Produtos.FirstOrDefaultAsync(p => p.ProdutoId == id);
-            if (produto is null)
-                return NotFound("Produto não encontrado...");
+			var produto = await _context.Produtos.FirstOrDefaultAsync(p => p.ProdutoId == id);
+			if (produto is null)
+				return NotFound("Produto não encontrado...");
 
-            _context.Produtos.Remove(produto);
-            await _context.SaveChangesAsync();
+			_context.Produtos.Remove(produto);
+			await _context.SaveChangesAsync();
 
-            return Ok(produto);
-        }
+			return Ok(produto);
+		}
 		catch (Exception)
 		{
-            return StatusCode(StatusCodes.Status500InternalServerError, "Erro ao devolver a solicitação");
-        }
-		
+			return StatusCode(StatusCodes.Status500InternalServerError, "Erro ao devolver a solicitação");
+		}
+
 	}
 }
