@@ -1,4 +1,5 @@
 using CatalogoAPI.Context;
+using CatalogoAPI.Extensions;
 using CatalogoAPI.Filters;
 using CatalogoAPI.Services;
 using Microsoft.EntityFrameworkCore;
@@ -33,6 +34,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+//adiciona o middleware de tratamento de erros
+app.ConfigureExceptionHandler();
 
 app.UseHttpsRedirection();
 
