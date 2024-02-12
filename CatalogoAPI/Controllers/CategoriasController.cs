@@ -12,11 +12,13 @@ public class CategoriasController : ControllerBase
 {
     private readonly AppDbContext _context;
     private readonly IConfiguration _Configutation;
+    private readonly ILogger _logger;
 
-	public CategoriasController(AppDbContext context, IConfiguration configuration)
+	public CategoriasController(AppDbContext context, IConfiguration configuration, ILogger<CategoriasController> logger)
 	{
 		_context = context;
         _Configutation = configuration;
+        _logger = logger;
 	}
 
     [HttpGet("autor")]
@@ -38,6 +40,7 @@ public class CategoriasController : ControllerBase
 	{
         try
         {
+            _logger.LogInformation("============== ======================== GET CategoriasProduto =============");
             return await _context.Categorias.AsNoTracking().Include(p => p.Produtos).Where(c => c.CategoriaId <= 5).ToListAsync();
         }
         catch (Exception)
@@ -51,6 +54,8 @@ public class CategoriasController : ControllerBase
 	{
         try
         {
+            _logger.LogInformation("============== ======================== GET Categorias =============");
+
             var categorias = await _context.Categorias.AsNoTracking().ToListAsync();
             if (categorias is null)
                 return NotFound("Categorias não encontradas");
