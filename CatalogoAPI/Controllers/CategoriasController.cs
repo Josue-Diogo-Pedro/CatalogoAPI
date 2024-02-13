@@ -37,7 +37,7 @@ public class CategoriasController : ControllerBase
     }
 
 	[HttpGet("produtos")]
-	public async Task<ActionResult<IEnumerable<Categoria>>> GetCategoriasProdutos()
+	public ActionResult<IEnumerable<Categoria>> GetCategoriasProdutos()
 	{
         try
         {
@@ -51,13 +51,13 @@ public class CategoriasController : ControllerBase
 	}
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Categoria>>> Get()
+    public ActionResult<IEnumerable<Categoria>> Get()
 	{
         try
         {
             _logger.LogInformation("============== ======================== GET Categorias =============");
 
-            var categorias = await _uow.Categorias.AsNoTracking().ToListAsync();
+            var categorias = _uow.CategoriaRepository.Get().ToList();
             if (categorias is null)
                 return NotFound("Categorias não encontradas");
 
@@ -70,11 +70,11 @@ public class CategoriasController : ControllerBase
 	}
 
     [HttpGet("{id:int}", Name = "ObterCategoria")]
-    public async Task<ActionResult<Categoria>> GetById(int id)
+    public ActionResult<Categoria> GetById(int id)
     {
         try
         {
-            var categoria = await _uow.Categorias.FirstOrDefaultAsync(p => p.CategoriaId == id);
+            var categoria = _uow.CategoriaRepository.GetById(p => p.CategoriaId == id);
             if (categoria is null)
                 return NotFound("Produto não encontrado");
 
@@ -87,15 +87,15 @@ public class CategoriasController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult> Post(Categoria categoria)
+    public ActionResult Post(Categoria categoria)
     {
         try
         {
             if (categoria is null)
                 return BadRequest();
 
-            await _uow.Categorias.AddAsync(categoria);
-            await _uow.SaveChangesAsync();
+            _uow.CategoriaRepository.Add(categoria);
+            _uow.Commit();
 
             return new CreatedAtRouteResult("ObterCategoria",
                 new { id = categoria.CategoriaId, categoria });
@@ -115,8 +115,8 @@ public class CategoriasController : ControllerBase
             if (id != categoria.CategoriaId)
                 return BadRequest();
 
-            _uow.Entry(categoria).State = EntityState.Modified;
-            await _uow.SaveChangesAsync();
+            _uow.CategoriaRepository.Update(categoria);
+            _uow.Commit();
 
             return Ok(categoria);
         }
@@ -128,16 +128,16 @@ public class CategoriasController : ControllerBase
     }
 
     [HttpDelete("{id:int}")]
-    public async Task<ActionResult> Delete(int id)
+    public ActionResult Delete(int id)
     {
         try
         {
-            var categoria = await _uow.Categorias.FirstOrDefaultAsync(p => p.CategoriaId == id);
+            var categoria = _uow.CategoriaRepository.GetById(p => p.CategoriaId == id);
             if (categoria is null)
                 return NotFound("Produto não encontrado...");
 
-            _uow.Categorias.Remove(categoria);
-            await _uow.SaveChangesAsync();
+            _uow.CategoriaRepository.Delete(categoria);
+            _uow.Commit();
 
             return Ok(categoria);
         }
