@@ -1,9 +1,7 @@
-﻿using CatalogoAPI.Context;
-using CatalogoAPI.Models;
+﻿using CatalogoAPI.Models;
 using CatalogoAPI.Repository;
 using CatalogoAPI.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace CatalogoAPI.Controllers;
 
@@ -15,12 +13,12 @@ public class CategoriasController : ControllerBase
     private readonly IConfiguration _Configutation;
     private readonly ILogger _logger;
 
-	public CategoriasController(IUnitOfWork uow, IConfiguration configuration, ILogger<CategoriasController> logger)
-	{
-		_uow = uow;
+    public CategoriasController(IUnitOfWork uow, IConfiguration configuration, ILogger<CategoriasController> logger)
+    {
+        _uow = uow;
         _Configutation = configuration;
         _logger = logger;
-	}
+    }
 
     [HttpGet("autor")]
     public string GetAutor()
@@ -36,9 +34,9 @@ public class CategoriasController : ControllerBase
         return meuServico.Saudacao(nome);
     }
 
-	[HttpGet("produtos")]
-	public ActionResult<IEnumerable<Categoria>> GetCategoriasProdutos()
-	{
+    [HttpGet("produtos")]
+    public ActionResult<IEnumerable<Categoria>> GetCategoriasProdutos()
+    {
         try
         {
             _logger.LogInformation("============== ======================== GET CategoriasProduto =============");
@@ -48,11 +46,11 @@ public class CategoriasController : ControllerBase
         {
             return StatusCode(StatusCodes.Status500InternalServerError, "Erro ao devolver a solicitação");
         }
-	}
+    }
 
     [HttpGet]
     public ActionResult<IEnumerable<Categoria>> Get()
-	{
+    {
         try
         {
             _logger.LogInformation("============== ======================== GET Categorias =============");
@@ -67,7 +65,7 @@ public class CategoriasController : ControllerBase
         {
             return StatusCode(StatusCodes.Status500InternalServerError, "Erro ao devolver a solicitação");
         }
-	}
+    }
 
     [HttpGet("{id:int}", Name = "ObterCategoria")]
     public ActionResult<Categoria> GetById(int id)
@@ -104,7 +102,7 @@ public class CategoriasController : ControllerBase
         {
             return StatusCode(StatusCodes.Status500InternalServerError, "Erro ao devolver a solicitação");
         }
-        
+
     }
 
     [HttpPut]
@@ -124,7 +122,7 @@ public class CategoriasController : ControllerBase
         {
             return StatusCode(StatusCodes.Status500InternalServerError, "Erro ao devolver a solicitação");
         }
-        
+
     }
 
     [HttpDelete("{id:int}")]
