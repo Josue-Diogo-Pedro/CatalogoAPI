@@ -1,4 +1,5 @@
 ﻿using CatalogoAPI.Context;
+using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
 namespace CatalogoAPI.Repository;
@@ -7,33 +8,15 @@ public class Repository<T> : IRepository<T> where T : class
 {
     protected AppDbContext _context;
 
-    public Repository()
-    {
+    public Repository(AppDbContext context) => _context = context; 
 
-    }
+    public IQueryable<T> Get() => _context.Set<T>().AsNoTracking();
 
-    public void Add(T entity)
-    {
-        throw new NotImplementedException();
-    }
+    public T GetById(Expression<Func<T, bool>> predicate) => _context.Set<T>().FirstOrDefault(predicate);
 
-    public void Delete(T entity)
-    {
-        throw new NotImplementedException();
-    }
+    public void Add(T entity) => _context.Set<T>().Add(entity);
 
-    public IQueryable<T> Get()
-    {
-        throw new NotImplementedException();
-    }
+    public void Update(T entity) => _context.Set<T>().Update(entity);
 
-    public T GetById(Expression<Func<T, bool>> predicate)
-    {
-        throw new NotImplementedException();
-    }
-
-    public void Update(T entity)
-    {
-        throw new NotImplementedException();
-    }
+    public void Delete(T entity) => _context.Set<T>().Remove(entity);
 }
