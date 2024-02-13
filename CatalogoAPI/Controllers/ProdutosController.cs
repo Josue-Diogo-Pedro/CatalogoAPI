@@ -18,6 +18,9 @@ public class ProdutosController : ControllerBase
 		_uow = uow;
 	}
 
+	[HttpGet("menor-preco")]
+	public IEnumerable<Produto> GetProdutosPreco() => _uow.ProdutoRepository.GetProdutosPorPreco().ToList();
+
 	[HttpGet]
 	[ServiceFilter(typeof(ApiLoggingFilter))]
 	public ActionResult<IEnumerable<Produto>> Get()
