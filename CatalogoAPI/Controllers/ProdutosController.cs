@@ -1,6 +1,7 @@
 ﻿using CatalogoAPI.Context;
 using CatalogoAPI.Filters;
 using CatalogoAPI.Models;
+using CatalogoAPI.Repository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,11 +11,11 @@ namespace CatalogoAPI.Controllers;
 //[ApiController]
 public class ProdutosController : ControllerBase
 {
-	private readonly AppDbContext _context;
+	private readonly IUnitOfWork _uow;
 
-	public ProdutosController(AppDbContext context)
+	public ProdutosController(IUnitOfWork uow)
 	{
-		_context = context;
+		_uow = uow;
 	}
 
 	[HttpGet]
@@ -23,7 +24,7 @@ public class ProdutosController : ControllerBase
 	{
 		try
 		{
-			var produtos = _context.Produtos.AsNoTracking().ToList();
+			var produtos = _uow.ProdutoRepository.Get().ToList();
 			if (produtos is null)
 			{
 				return NotFound("Produtos não encontrados...");
@@ -42,7 +43,7 @@ public class ProdutosController : ControllerBase
 	[HttpGet("{valor:alpha}")]
 	public ActionResult<Produto> Get2()
 	{
-		var produto = _context.Produtos.FirstOrDefault();
+		var produto = _uow.Produtos.FirstOrDefault();
 		return produto;
 	}
 
@@ -52,7 +53,7 @@ public class ProdutosController : ControllerBase
 	{
 		try
 		{
-			var produto = await _context.Produtos.FirstOrDefaultAsync(p => p.ProdutoId == id);
+			var produto = await _uow.Produtos.FirstOrDefaultAsync(p => p.ProdutoId == id);
 			if (produto is null)
 				return NotFound("Produto não encontrado");
 
@@ -73,8 +74,8 @@ public class ProdutosController : ControllerBase
 			if (!ModelState.IsValid)
 				return BadRequest(ModelState);
 
-			await _context.Produtos.AddAsync(produto);
-			await _context.SaveChangesAsync();
+			await _uow.Produtos.AddAsync(produto);
+			await _uow.SaveChangesAsync();
 
 			return new CreatedAtRouteResult("ObterProduto",
 				new { id = produto.ProdutoId, produto });
@@ -93,8 +94,8 @@ public class ProdutosController : ControllerBase
 			if (id != produto.ProdutoId)
 				return BadRequest();
 
-			_context.Entry(produto).State = EntityState.Modified;
-			await _context.SaveChangesAsync();
+			_uow.Entry(produto).State = EntityState.Modified;
+			await _uow.SaveChangesAsync();
 
 			return Ok(produto);
 		}
@@ -110,12 +111,12 @@ public class ProdutosController : ControllerBase
 	{
 		try
 		{
-			var produto = await _context.Produtos.FirstOrDefaultAsync(p => p.ProdutoId == id);
+			var produto = await _uow.Produtos.FirstOrDefaultAsync(p => p.ProdutoId == id);
 			if (produto is null)
 				return NotFound("Produto não encontrado...");
 
-			_context.Produtos.Remove(produto);
-			await _context.SaveChangesAsync();
+			_uow.Produtos.Remove(produto);
+			await _uow.SaveChangesAsync();
 
 			return Ok(produto);
 		}
