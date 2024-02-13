@@ -88,7 +88,7 @@ public class ProdutosController : ControllerBase
 	}
 
 	[HttpPut]
-	public ActionResult Put(int id, Produto produto)
+	public ActionResult Put(int id, [FromBody]Produto produto)
 	{
 		try
 		{

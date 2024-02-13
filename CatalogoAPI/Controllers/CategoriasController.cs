@@ -85,7 +85,7 @@ public class CategoriasController : ControllerBase
     }
 
     [HttpPost]
-    public ActionResult Post(Categoria categoria)
+    public ActionResult Post([FromBody]Categoria categoria)
     {
         try
         {
@@ -106,7 +106,7 @@ public class CategoriasController : ControllerBase
     }
 
     [HttpPut]
-    public async Task<ActionResult> Put(int id, Categoria categoria)
+    public async Task<ActionResult> Put(int id, [FromBody]Categoria categoria)
     {
         try
         {
