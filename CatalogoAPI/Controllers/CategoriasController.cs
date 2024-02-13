@@ -1,5 +1,6 @@
 ﻿using CatalogoAPI.Context;
 using CatalogoAPI.Models;
+using CatalogoAPI.Repository;
 using CatalogoAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -10,13 +11,13 @@ namespace CatalogoAPI.Controllers;
 [ApiController]
 public class CategoriasController : ControllerBase
 {
-    private readonly AppDbContext _context;
+    private readonly IUnitOfWork _uow;
     private readonly IConfiguration _Configutation;
     private readonly ILogger _logger;
 
-	public CategoriasController(AppDbContext context, IConfiguration configuration, ILogger<CategoriasController> logger)
+	public CategoriasController(IUnitOfWork uow, IConfiguration configuration, ILogger<CategoriasController> logger)
 	{
-		_context = context;
+		_uow = uow;
         _Configutation = configuration;
         _logger = logger;
 	}
@@ -41,7 +42,7 @@ public class CategoriasController : ControllerBase
         try
         {
             _logger.LogInformation("============== ======================== GET CategoriasProduto =============");
-            return await _context.Categorias.AsNoTracking().Include(p => p.Produtos).Where(c => c.CategoriaId <= 5).ToListAsync();
+            return _uow.CategoriaRepository.GetCategoriasProdutos().ToList();
         }
         catch (Exception)
         {
@@ -56,7 +57,7 @@ public class CategoriasController : ControllerBase
         {
             _logger.LogInformation("============== ======================== GET Categorias =============");
 
-            var categorias = await _context.Categorias.AsNoTracking().ToListAsync();
+            var categorias = await _uow.Categorias.AsNoTracking().ToListAsync();
             if (categorias is null)
                 return NotFound("Categorias não encontradas");
 
@@ -73,7 +74,7 @@ public class CategoriasController : ControllerBase
     {
         try
         {
-            var categoria = await _context.Categorias.FirstOrDefaultAsync(p => p.CategoriaId == id);
+            var categoria = await _uow.Categorias.FirstOrDefaultAsync(p => p.CategoriaId == id);
             if (categoria is null)
                 return NotFound("Produto não encontrado");
 
@@ -93,8 +94,8 @@ public class CategoriasController : ControllerBase
             if (categoria is null)
                 return BadRequest();
 
-            await _context.Categorias.AddAsync(categoria);
-            await _context.SaveChangesAsync();
+            await _uow.Categorias.AddAsync(categoria);
+            await _uow.SaveChangesAsync();
 
             return new CreatedAtRouteResult("ObterCategoria",
                 new { id = categoria.CategoriaId, categoria });
@@ -114,8 +115,8 @@ public class CategoriasController : ControllerBase
             if (id != categoria.CategoriaId)
                 return BadRequest();
 
-            _context.Entry(categoria).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
+            _uow.Entry(categoria).State = EntityState.Modified;
+            await _uow.SaveChangesAsync();
 
             return Ok(categoria);
         }
@@ -131,12 +132,12 @@ public class CategoriasController : ControllerBase
     {
         try
         {
-            var categoria = await _context.Categorias.FirstOrDefaultAsync(p => p.CategoriaId == id);
+            var categoria = await _uow.Categorias.FirstOrDefaultAsync(p => p.CategoriaId == id);
             if (categoria is null)
                 return NotFound("Produto não encontrado...");
 
-            _context.Categorias.Remove(categoria);
-            await _context.SaveChangesAsync();
+            _uow.Categorias.Remove(categoria);
+            await _uow.SaveChangesAsync();
 
             return Ok(categoria);
         }

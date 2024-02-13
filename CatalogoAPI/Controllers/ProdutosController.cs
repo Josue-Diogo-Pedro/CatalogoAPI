@@ -1,9 +1,7 @@
-﻿using CatalogoAPI.Context;
-using CatalogoAPI.Filters;
+﻿using CatalogoAPI.Filters;
 using CatalogoAPI.Models;
 using CatalogoAPI.Repository;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace CatalogoAPI.Controllers;
 
