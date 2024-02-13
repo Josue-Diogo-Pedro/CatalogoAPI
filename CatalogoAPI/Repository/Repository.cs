@@ -12,7 +12,7 @@ public class Repository<T> : IRepository<T> where T : class
 
     public IQueryable<T> Get() => _context.Set<T>().AsNoTracking();
 
-    public T GetById(Expression<Func<T, bool>> predicate) => _context.Set<T>().FirstOrDefault(predicate);
+    public T GetById(Expression<Func<T, bool>> predicate) => _context.Set<T>().AsNoTracking().SingleOrDefault(predicate);
 
     public void Add(T entity) => _context.Set<T>().Add(entity);
 
