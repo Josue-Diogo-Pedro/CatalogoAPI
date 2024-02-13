@@ -19,11 +19,11 @@ public class ProdutosController : ControllerBase
 
 	[HttpGet]
 	[ServiceFilter(typeof(ApiLoggingFilter))]
-	public async Task<ActionResult<IEnumerable<Produto>>> Get()
+	public ActionResult<IEnumerable<Produto>> Get()
 	{
 		try
 		{
-			var produtos = await _context.Produtos.AsNoTracking().ToListAsync();
+			var produtos = _context.Produtos.AsNoTracking().ToList();
 			if (produtos is null)
 			{
 				return NotFound("Produtos não encontrados...");
@@ -40,9 +40,9 @@ public class ProdutosController : ControllerBase
 	}
 
 	[HttpGet("{valor:alpha}")]
-	public async Task<ActionResult<Produto>> Get2()
+	public ActionResult<Produto> Get2()
 	{
-		var produto = await _context.Produtos.FirstOrDefaultAsync();
+		var produto = _context.Produtos.FirstOrDefault();
 		return produto;
 	}
 
