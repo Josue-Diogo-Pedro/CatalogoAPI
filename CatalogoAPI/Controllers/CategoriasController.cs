@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CatalogoAPI.DTOs;
 using CatalogoAPI.Models;
 using CatalogoAPI.Repository;
 using CatalogoAPI.Services;
@@ -38,12 +39,14 @@ public class CategoriasController : ControllerBase
     }
 
     [HttpGet("produtos")]
-    public ActionResult<IEnumerable<Categoria>> GetCategoriasProdutos()
+    public ActionResult<IEnumerable<CategoriaDTO>> GetCategoriasProdutos()
     {
         try
         {
             _logger.LogInformation("============== ======================== GET CategoriasProduto =============");
-            return _uow.CategoriaRepository.GetCategoriasProdutos().ToList();
+            var categorias = _uow.CategoriaRepository.GetCategoriasProdutos().ToList();
+
+            return _mapper.Map<List<CategoriaDTO>>(categorias);
         }
         catch (Exception)
         {
@@ -52,7 +55,7 @@ public class CategoriasController : ControllerBase
     }
 
     [HttpGet]
-    public ActionResult<IEnumerable<Categoria>> Get()
+    public ActionResult<IEnumerable<CategoriaDTO>> Get()
     {
         try
         {
@@ -62,7 +65,8 @@ public class CategoriasController : ControllerBase
             if (categorias is null)
                 return NotFound("Categorias não encontradas");
 
-            return categorias;
+            var categoriasDTO = _mapper.Map<List<CategoriaDTO>>(categorias);
+            return categoriasDTO;
         }
         catch (Exception)
         {
@@ -71,7 +75,7 @@ public class CategoriasController : ControllerBase
     }
 
     [HttpGet("{id:int}", Name = "ObterCategoria")]
-    public ActionResult<Categoria> GetById(int id)
+    public ActionResult<CategoriaDTO> GetById(int id)
     {
         try
         {
@@ -79,7 +83,8 @@ public class CategoriasController : ControllerBase
             if (categoria is null)
                 return NotFound("Produto não encontrado");
 
-            return categoria;
+            var categoriaDTO = _mapper.Map<CategoriaDTO>(categoria);
+            return categoriaDTO;
         }
         catch (Exception)
         {
@@ -88,18 +93,19 @@ public class CategoriasController : ControllerBase
     }
 
     [HttpPost]
-    public ActionResult Post([FromBody]Categoria categoria)
+    public ActionResult Post([FromBody]CategoriaDTO categoriaDTO)
     {
         try
         {
-            if (categoria is null)
+            if (categoriaDTO is null)
                 return BadRequest();
 
+            var categoria = _mapper.Map<Categoria>(categoriaDTO);
             _uow.CategoriaRepository.Add(categoria);
             _uow.Commit();
 
             return new CreatedAtRouteResult("ObterCategoria",
-                new { id = categoria.CategoriaId, categoria });
+                new { id = categoriaDTO.CategoriaId, categoriaDTO });
         }
         catch (Exception)
         {
@@ -109,13 +115,14 @@ public class CategoriasController : ControllerBase
     }
 
     [HttpPut]
-    public async Task<ActionResult> Put(int id, [FromBody]Categoria categoria)
+    public ActionResult Put(int id, [FromBody]CategoriaDTO categoriaDTO)
     {
         try
         {
-            if (id != categoria.CategoriaId)
+            if (id != categoriaDTO.CategoriaId)
                 return BadRequest();
 
+            var categoria = _mapper.Map<Categoria>(categoriaDTO);
             _uow.CategoriaRepository.Update(categoria);
             _uow.Commit();
 
@@ -133,10 +140,11 @@ public class CategoriasController : ControllerBase
     {
         try
         {
-            var categoria = _uow.CategoriaRepository.GetById(p => p.CategoriaId == id);
-            if (categoria is null)
+            var categoriaDTO = _mapper.Map<CategoriaDTO>(_uow.CategoriaRepository.GetById(p => p.CategoriaId == id));
+            if (categoriaDTO is null)
                 return NotFound("Produto não encontrado...");
 
+            var categoria = _mapper.Map<Categoria>(categoriaDTO);
             _uow.CategoriaRepository.Delete(categoria);
             _uow.Commit();
 
