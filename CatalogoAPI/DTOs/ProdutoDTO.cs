@@ -1,6 +1,6 @@
-﻿namespace CatalogoAPI.DTOs
+﻿namespace CatalogoAPI.DTOs;
+
+public class ProdutoDTO
 {
-    public class ProdutoDTO
-    {
-    }
+
 }
