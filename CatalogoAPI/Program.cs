@@ -1,4 +1,6 @@
+using AutoMapper;
 using CatalogoAPI.Context;
+using CatalogoAPI.DTOs.Mappings;
 using CatalogoAPI.Extensions;
 using CatalogoAPI.Filters;
 using CatalogoAPI.Repository;
@@ -18,6 +20,14 @@ builder.Services.AddControllers()
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+var mappingConfig = new MapperConfiguration(mc =>
+{
+    mc.AddProfile(new MappingProfile());
+});
+
+IMapper mapper = mappingConfig.CreateMapper();
+builder.Services.AddSingleton(mapper);
 
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
