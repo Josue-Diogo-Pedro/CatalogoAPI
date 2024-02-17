@@ -1,4 +1,5 @@
-﻿using CatalogoAPI.Filters;
+﻿using AutoMapper;
+using CatalogoAPI.Filters;
 using CatalogoAPI.Models;
 using CatalogoAPI.Repository;
 using Microsoft.AspNetCore.Mvc;
@@ -10,10 +11,12 @@ namespace CatalogoAPI.Controllers;
 public class ProdutosController : ControllerBase
 {
 	private readonly IUnitOfWork _uow;
+	private readonly IMapper _mapper;
 
-	public ProdutosController(IUnitOfWork uow)
+	public ProdutosController(IUnitOfWork uow, IMapper mapper)
 	{
 		_uow = uow;
+		_mapper = mapper;
 	}
 
 	[HttpGet("menor-preco")]
