@@ -1,4 +1,5 @@
-﻿using CatalogoAPI.Models;
+﻿using AutoMapper;
+using CatalogoAPI.Models;
 using CatalogoAPI.Repository;
 using CatalogoAPI.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -12,12 +13,14 @@ public class CategoriasController : ControllerBase
     private readonly IUnitOfWork _uow;
     private readonly IConfiguration _Configutation;
     private readonly ILogger _logger;
+    private readonly IMapper _mapper;
 
-    public CategoriasController(IUnitOfWork uow, IConfiguration configuration, ILogger<CategoriasController> logger)
+    public CategoriasController(IUnitOfWork uow, IConfiguration configuration, ILogger<CategoriasController> logger, IMapper mapper)
     {
         _uow = uow;
         _Configutation = configuration;
         _logger = logger;
+        _mapper = mapper;
     }
 
     [HttpGet("autor")]
