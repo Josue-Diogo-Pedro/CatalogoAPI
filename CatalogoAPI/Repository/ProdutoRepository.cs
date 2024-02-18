@@ -8,13 +8,16 @@ public class ProdutoRepository : Repository<Produto>, IProdutoRepository
 {
     public ProdutoRepository(AppDbContext context) : base(context) { }
 
-    public IEnumerable<Produto> GetProdutos(ProdutosParameters produtosParameters)
+    public PagedList<Produto> GetProdutos(ProdutosParameters produtosParameters)
     {
-        return Get()
-            .OrderBy(nome => nome.Nome)
-            .Skip((produtosParameters.PageNumber - 1) * produtosParameters.PageSize)
-            .Take(produtosParameters.PageSize)
-            .ToList();
+        //return Get()
+        //    .OrderBy(nome => nome.Nome)
+        //    .Skip((produtosParameters.PageNumber - 1) * produtosParameters.PageSize)
+        //    .Take(produtosParameters.PageSize)
+        //    .ToList();
+
+        return PagedList<Produto>.ToPagedList(Get().OrderBy(order => order.ProdutoId), 
+            produtosParameters.PageNumber, produtosParameters.PageSize);
     }
 
     public IEnumerable<Produto> GetProdutosPorPreco() => Get().OrderBy(p => p.Preco).ToList();
