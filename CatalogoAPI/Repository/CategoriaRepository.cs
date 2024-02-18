@@ -1,5 +1,6 @@
 ﻿using CatalogoAPI.Context;
 using CatalogoAPI.Models;
+using CatalogoAPI.Pagination;
 using Microsoft.EntityFrameworkCore;
 
 namespace CatalogoAPI.Repository;
@@ -7,6 +8,12 @@ namespace CatalogoAPI.Repository;
 public class CategoriaRepository : Repository<Categoria>, ICategoriaRepository
 {
     public CategoriaRepository(AppDbContext context) : base(context) { }
+
+    public PagedList<Categoria> GetCategorias(CategoriasParameters categoriasParameters)
+    {
+        return PagedList<Categoria>.ToPagedList(Get().OrderBy(order => order.CategoriaId),
+            categoriasParameters.PageNumber, categoriasParameters.PageSize);
+    }
 
     public IEnumerable<Categoria> GetCategoriasProdutos()
     {
