@@ -41,12 +41,12 @@ public class CategoriasController : ControllerBase
     }
 
     [HttpGet("produtos")]
-    public ActionResult<IEnumerable<CategoriaDTO>> GetCategoriasProdutos()
+    public async Task<ActionResult<IEnumerable<CategoriaDTO>>> GetCategoriasProdutos()
     {
         try
         {
             _logger.LogInformation("============== ======================== GET CategoriasProduto =============");
-            var categorias = _uow.CategoriaRepository.GetCategoriasProdutos().ToList();
+            var categorias = await _uow.CategoriaRepository.GetCategoriasProdutos();
 
             return _mapper.Map<List<CategoriaDTO>>(categorias);
         }
@@ -89,11 +89,11 @@ public class CategoriasController : ControllerBase
     }
 
     [HttpGet("{id:int}", Name = "ObterCategoria")]
-    public ActionResult<CategoriaDTO> GetById(int id)
+    public async Task<ActionResult<CategoriaDTO>> GetById(int id)
     {
         try
         {
-            var categoria = _uow.CategoriaRepository.GetById(p => p.CategoriaId == id);
+            var categoria = await _uow.CategoriaRepository.GetById(p => p.CategoriaId == id);
             if (categoria is null)
                 return NotFound("Produto não encontrado");
 
@@ -107,7 +107,7 @@ public class CategoriasController : ControllerBase
     }
 
     [HttpPost]
-    public ActionResult Post([FromBody]CategoriaDTO categoriaDTO)
+    public async Task<ActionResult> Post([FromBody]CategoriaDTO categoriaDTO)
     {
         try
         {
@@ -116,7 +116,7 @@ public class CategoriasController : ControllerBase
 
             var categoria = _mapper.Map<Categoria>(categoriaDTO);
             _uow.CategoriaRepository.Add(categoria);
-            _uow.Commit();
+            await _uow.Commit();
 
             return new CreatedAtRouteResult("ObterCategoria",
                 new { id = categoriaDTO.CategoriaId, categoriaDTO });
@@ -129,7 +129,7 @@ public class CategoriasController : ControllerBase
     }
 
     [HttpPut]
-    public ActionResult Put(int id, [FromBody]CategoriaDTO categoriaDTO)
+    public async Task<ActionResult> Put(int id, [FromBody]CategoriaDTO categoriaDTO)
     {
         try
         {
@@ -138,7 +138,7 @@ public class CategoriasController : ControllerBase
 
             var categoria = _mapper.Map<Categoria>(categoriaDTO);
             _uow.CategoriaRepository.Update(categoria);
-            _uow.Commit();
+            await _uow.Commit();
 
             return Ok(categoria);
         }
@@ -150,7 +150,7 @@ public class CategoriasController : ControllerBase
     }
 
     [HttpDelete("{id:int}")]
-    public ActionResult Delete(int id)
+    public async Task<ActionResult> Delete(int id)
     {
         try
         {
@@ -160,7 +160,7 @@ public class CategoriasController : ControllerBase
 
             var categoria = _mapper.Map<Categoria>(categoriaDTO);
             _uow.CategoriaRepository.Delete(categoria);
-            _uow.Commit();
+            await _uow.Commit();
 
             return Ok(categoria);
         }
