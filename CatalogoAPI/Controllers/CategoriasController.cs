@@ -57,13 +57,13 @@ public class CategoriasController : ControllerBase
     }
 
     [HttpGet]
-    public ActionResult<IEnumerable<CategoriaDTO>> Get([FromQuery] CategoriasParameters categoriasParameters)
+    public async Task<ActionResult<IEnumerable<CategoriaDTO>>> Get([FromQuery] CategoriasParameters categoriasParameters)
     {
         try
         {
             _logger.LogInformation("============== ======================== GET Categorias =============");
 
-            var categorias = _uow.CategoriaRepository.GetCategorias(categoriasParameters);
+            var categorias = await _uow.CategoriaRepository.GetCategorias(categoriasParameters);
             if (categorias is null)
                 return NotFound("Categorias não encontradas");
 
