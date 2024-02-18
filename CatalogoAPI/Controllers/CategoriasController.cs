@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using CatalogoAPI.DTOs;
 using CatalogoAPI.Models;
+using CatalogoAPI.Pagination;
 using CatalogoAPI.Repository;
 using CatalogoAPI.Services;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace CatalogoAPI.Controllers;
 
@@ -55,15 +57,27 @@ public class CategoriasController : ControllerBase
     }
 
     [HttpGet]
-    public ActionResult<IEnumerable<CategoriaDTO>> Get()
+    public ActionResult<IEnumerable<CategoriaDTO>> Get([FromQuery] CategoriasParameters categoriasParameters)
     {
         try
         {
             _logger.LogInformation("============== ======================== GET Categorias =============");
 
-            var categorias = _uow.CategoriaRepository.Get().ToList();
+            var categorias = _uow.CategoriaRepository.GetCategorias(categoriasParameters);
             if (categorias is null)
                 return NotFound("Categorias não encontradas");
+
+            var metadata = new
+            {
+                categorias.TotalCount,
+                categorias.PageSize,
+                categorias.CurrentPage,
+                categorias.TotalPages,
+                categorias.HasNext,
+                categorias.HasPrevious
+            };
+
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
 
             var categoriasDTO = _mapper.Map<List<CategoriaDTO>>(categorias);
             return categoriasDTO;
