@@ -5,6 +5,7 @@ using CatalogoAPI.Models;
 using CatalogoAPI.Pagination;
 using CatalogoAPI.Repository;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace CatalogoAPI.Controllers;
 
@@ -35,6 +36,18 @@ public class ProdutosController : ControllerBase
 			{
 				return NotFound("Produtos não encontrados...");
 			}
+
+			var metadata = new
+			{
+				produtos.TotalCount,
+				produtos.PageSize,
+				produtos.CurrentPage,
+				produtos.TotalPages,
+				produtos.HasNext,
+				produtos.HasPrevious
+			};
+
+			Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
 
 			var produtosDTO = _mapper.Map<List<ProdutoDTO>>(produtos);
 			return produtosDTO;
