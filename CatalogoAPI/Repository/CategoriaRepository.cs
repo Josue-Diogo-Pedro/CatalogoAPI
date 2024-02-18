@@ -15,8 +15,8 @@ public class CategoriaRepository : Repository<Categoria>, ICategoriaRepository
             categoriasParameters.PageNumber, categoriasParameters.PageSize);
     }
 
-    public IEnumerable<Categoria> GetCategoriasProdutos()
+    public async Task<IEnumerable<Categoria>> GetCategoriasProdutos()
     {
-        return Get().Include(p => p.Produtos);
+        return await Get().Include(p => p.Produtos).ToListAsync();
     }
 }
