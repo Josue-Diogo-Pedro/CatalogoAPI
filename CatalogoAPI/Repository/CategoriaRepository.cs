@@ -9,9 +9,9 @@ public class CategoriaRepository : Repository<Categoria>, ICategoriaRepository
 {
     public CategoriaRepository(AppDbContext context) : base(context) { }
 
-    public PagedList<Categoria> GetCategorias(CategoriasParameters categoriasParameters)
+    public async Task<PagedList<Categoria>> GetCategorias(CategoriasParameters categoriasParameters)
     {
-        return PagedList<Categoria>.ToPagedList(Get().OrderBy(order => order.CategoriaId),
+        return await PagedList<Categoria>.ToPagedList(Get().OrderBy(order => order.CategoriaId),
             categoriasParameters.PageNumber, categoriasParameters.PageSize);
     }
 

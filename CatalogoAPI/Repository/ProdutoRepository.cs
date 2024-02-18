@@ -9,7 +9,7 @@ public class ProdutoRepository : Repository<Produto>, IProdutoRepository
 {
     public ProdutoRepository(AppDbContext context) : base(context) { }
 
-    public PagedList<Produto> GetProdutos(ProdutosParameters produtosParameters)
+    public async Task<PagedList<Produto>> GetProdutos(ProdutosParameters produtosParameters)
     {
         //return Get()
         //    .OrderBy(nome => nome.Nome)
@@ -17,7 +17,7 @@ public class ProdutoRepository : Repository<Produto>, IProdutoRepository
         //    .Take(produtosParameters.PageSize)
         //    .ToList();
 
-        return PagedList<Produto>.ToPagedList(Get().OrderBy(order => order.ProdutoId), 
+        return await PagedList<Produto>.ToPagedList(Get().OrderBy(order => order.ProdutoId), 
             produtosParameters.PageNumber, produtosParameters.PageSize);
     }
 
