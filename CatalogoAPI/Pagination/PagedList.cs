@@ -16,6 +16,8 @@ public class PagedList<T> : List<T>
         PageSize = pageSize;
         CurrentPage = pageNumber;
         TotalPages = (int)Math.Ceiling(count/(double)PageSize);
+
+        AddRange(items);
     }
 
     public static PagedList<T> ToPagedList(IQueryable<T> source, int pageNumber, int pageSize)
