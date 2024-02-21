@@ -81,7 +81,7 @@ public class AuthorizeController : ControllerBase
 
         //gera uma chave com base em um algoritmo simetrico
         var key = new SymmetricSecurityKey(
-            Encoding.UTF8.GetBytes(_configuration["Jwt:key"]));
+            Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
 
         //gera a assinatura digital do token usando o algoritmo Hmac e a chave privada
         var credenciais = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
