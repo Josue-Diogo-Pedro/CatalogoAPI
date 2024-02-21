@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CatalogoAPI.Controllers;
 
-[Route("api/Ccontroller]")]
+[Route("api/[Controller]")]
 [ApiController]
 public class AuthorizeController : ControllerBase
 {
@@ -18,7 +18,10 @@ public class AuthorizeController : ControllerBase
     }
 
     [HttpGet]
-    public string Get() => "AuthorizeController :: Acessado em : " + DateTime.Now.ToLongDateString();
+    public ActionResult<string> Get() 
+    { 
+        return "AuthorizeController :: Acessado em : " + DateTime.Now.ToLongDateString();
+    }
 
     [HttpPost("register")]
     public async Task<ActionResult> RegisterUser([FromBody]UsuarioDTO model)
