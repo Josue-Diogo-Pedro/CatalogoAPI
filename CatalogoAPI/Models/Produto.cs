@@ -15,7 +15,7 @@ public class Produto : IValidatableObject
     [StringLength(80, ErrorMessage = "O nome deve ter entre 5 e 20 caracteres", MinimumLength = 5)]
     //[PrimeiraLetraMaiuscula]
     public string? Nome { get; set; }
-
+    
     [Required]
     [StringLength(300, ErrorMessage = "A descrição deve ter no máximo {1} caracteres")]
     public string? Descricao { get; set; }
