@@ -39,4 +39,21 @@ public class AuthorizeController : ControllerBase
         await _signInManager.SignInAsync(user, false);
         return Ok();
     }
+
+    [HttpPost("login")]
+    public async Task<ActionResult> Login([FromBody]UsuarioDTO userInfo)
+    {
+        //Verifica se o modelo é válido
+        if (!ModelState.IsValid) return BadRequest(ModelState.Values.SelectMany(error => error.Errors));
+
+        //Verifica as credencias do usuário e retorna um valor
+        var result = await _signInManager.PasswordSignInAsync(userInfo.Email, userInfo.Password, false, false);
+
+        if (result.Succeeded) return Ok();
+        else
+        {
+            ModelState.AddModelError(string.Empty, "Login Inválido...");
+            return BadRequest(ModelState);
+        }
+    }
 }
