@@ -6,6 +6,7 @@ using CatalogoAPI.Repository;
 using CatalogoAPI.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
@@ -14,6 +15,7 @@ namespace CatalogoAPI.Controllers;
 [Route("api/[controller]")]
 [ApiController]
 [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+//[EnableCors("PermitirApiRequest")]
 public class CategoriasController : ControllerBase
 {
     private readonly IUnitOfWork _uow;
@@ -91,6 +93,7 @@ public class CategoriasController : ControllerBase
         }
     }
 
+    //[EnableCors("PermitirApiRequest")]
     [HttpGet("{id:int}", Name = "ObterCategoria")]
     public async Task<ActionResult<CategoriaDTO>> GetById(int id)
     {

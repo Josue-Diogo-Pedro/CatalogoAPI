@@ -19,6 +19,14 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddCors();
 
+//builder.Services.AddCors(options =>
+//{
+//    options.AddPolicy("PermitirApiRequest",
+//        builder =>
+//            builder.WithOrigins("http://www.apirequest.io/")
+//                    .WithMethods("GET"));
+//});
+
 builder.Services.AddControllers()
     .AddJsonOptions(options => 
     options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
@@ -117,10 +125,7 @@ app.UseRouting();
 //adiciona o middleware que habilita a autenticação
 app.UseAuthentication();
 
-//app.UseCors(optins =>
-//        optins
-//        .WithOrigins("")
-//        .WithMethods(""));
+//app.UseCors();
 
 app.UseCors(options => options
             .AllowAnyOrigin()
