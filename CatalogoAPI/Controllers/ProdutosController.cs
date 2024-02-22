@@ -4,6 +4,8 @@ using CatalogoAPI.Filters;
 using CatalogoAPI.Models;
 using CatalogoAPI.Pagination;
 using CatalogoAPI.Repository;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
@@ -11,6 +13,7 @@ namespace CatalogoAPI.Controllers;
 
 [Route("api/[controller]")]
 //[ApiController]
+[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 public class ProdutosController : ControllerBase
 {
 	private readonly IUnitOfWork _uow;
