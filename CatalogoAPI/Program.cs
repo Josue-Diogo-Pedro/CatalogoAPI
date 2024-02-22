@@ -17,6 +17,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+builder.Services.AddCors();
+
 builder.Services.AddControllers()
     .AddJsonOptions(options => 
     options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
@@ -76,7 +78,6 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>()
 //esquema de autenticação usado: Bearer
 //valida o emissor, a audiência e a chave
 //usando a chave secreta valida a assinatura
-
 builder.Services.AddAuthentication(
     JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -115,6 +116,16 @@ app.UseRouting();
 
 //adiciona o middleware que habilita a autenticação
 app.UseAuthentication();
+
+//app.UseCors(optins =>
+//        optins
+//        .WithOrigins("")
+//        .WithMethods(""));
+
+app.UseCors(options => options
+            .AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader());
 
 //adiciona o middleware que habilita a autorização
 app.UseAuthorization();
