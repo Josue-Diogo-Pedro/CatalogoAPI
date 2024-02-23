@@ -75,6 +75,8 @@ builder.Services.AddApiVersioning(options =>
     options.ReportApiVersions = true;
 });
 
+//builder.Services.AddApiVersioning(options => options.UseApiBehavior = false);
+
 var mappingConfig = new MapperConfiguration(mc =>
 {
     mc.AddProfile(new MappingProfile());

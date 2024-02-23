@@ -3,7 +3,7 @@
 namespace CatalogoAPI.Controllers;
 
 [ApiVersion("2.0")]
-[Route("api/teste")]
+[Route("api/{v:apiVersion}/teste")]
 [ApiController]
 public class Testev2Controller : ControllerBase
 {
