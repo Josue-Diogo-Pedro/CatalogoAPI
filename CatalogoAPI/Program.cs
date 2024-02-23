@@ -52,13 +52,6 @@ builder.Services.AddSwaggerGen(c =>
         Description = "Header de autorização usando o esquema Bearer.\r\n\r\nInforme 'Bearer'[espaço] e o seu token.\r\n\r\nExemplo: \'Bearer 1234abcdef\'",
     });
 
-    builder.Services.AddApiVersioning(options =>
-    {
-        options.AssumeDefaultVersionWhenUnspecified = true;
-        options.DefaultApiVersion = new ApiVersion(1, 0);
-        options.ReportApiVersions = true;
-    });
-
     c.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
         {
@@ -73,6 +66,13 @@ builder.Services.AddSwaggerGen(c =>
             new string[]{}
         }
     });
+});
+
+builder.Services.AddApiVersioning(options =>
+{
+    options.AssumeDefaultVersionWhenUnspecified = true;
+    options.DefaultApiVersion = new ApiVersion(1, 0);
+    options.ReportApiVersions = true;
 });
 
 var mappingConfig = new MapperConfiguration(mc =>
