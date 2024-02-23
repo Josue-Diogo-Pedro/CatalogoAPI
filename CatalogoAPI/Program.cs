@@ -13,10 +13,12 @@ using Microsoft.OpenApi.Models;
 using System.Text;
 using System.Text.Json.Serialization;
 
+
+#region Injeção de Dependência
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddCors();
 
 //builder.Services.AddCors(options =>
@@ -28,7 +30,7 @@ builder.Services.AddCors();
 //});
 
 builder.Services.AddControllers()
-    .AddJsonOptions(options => 
+    .AddJsonOptions(options =>
     options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
 
@@ -104,6 +106,11 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<ApiLoggingFilter>();
 builder.Services.AddTransient<IMeuServico, MeuServico>();
 
+#endregion
+
+
+#region Utilização dos Middlewares
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -137,4 +144,6 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.Run();
+app.Run(); 
+
+#endregion
