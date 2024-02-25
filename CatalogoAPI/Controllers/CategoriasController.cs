@@ -15,7 +15,7 @@ namespace CatalogoAPI.Controllers;
 [Produces("application/json")]
 [Route("api/[controller]")]
 [ApiController]
-[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+//[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 //[EnableCors("PermitirApiRequest")]
 public class CategoriasController : ControllerBase
 {
@@ -23,10 +23,10 @@ public class CategoriasController : ControllerBase
     private readonly IConfiguration _Configutation;
     private readonly IMapper _mapper;
 
-    public CategoriasController(IUnitOfWork uow, IConfiguration configuration, IMapper mapper)
+    public CategoriasController(IMapper mapper, IUnitOfWork uow)
     {
         _uow = uow;
-        _Configutation = configuration;
+        //_Configutation = configuration;
         _mapper = mapper;
     }
 
