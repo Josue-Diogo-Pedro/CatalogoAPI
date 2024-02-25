@@ -11,6 +11,7 @@ using Newtonsoft.Json;
 
 namespace CatalogoAPI.Controllers;
 
+[ApiConventionType(typeof(DefaultApiConventions))]
 [Produces("application/json")]
 [Route("api/[controller]")]
 //[ApiController]
@@ -36,7 +37,10 @@ public class ProdutosController : ControllerBase
 	/// <returns>List of products</returns>
 	[HttpGet]
 	[ServiceFilter(typeof(ApiLoggingFilter))]
-	public async Task<ActionResult<IEnumerable<ProdutoDTO>>> Get([FromQuery]ProdutosParameters produtosParameters)
+    [ProducesResponseType(typeof(ProdutoDTO), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<ActionResult<IEnumerable<ProdutoDTO>>> Get([FromQuery]ProdutosParameters produtosParameters)
 	{
 		try
 		{
@@ -84,7 +88,10 @@ public class ProdutosController : ControllerBase
 	/// <returns>Product object</returns>
 	//public async Task<ActionResult<Produto>> GetById8(int id, [BindRequired]string nome)
 	[HttpGet("{id:int:min(1)}", Name = "ObterProduto")]
-	public async Task<ActionResult<ProdutoDTO>> GetById(int id)
+    [ProducesResponseType(typeof(ProdutoDTO), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<ActionResult<ProdutoDTO>> GetById(int id)
 	{
 		try
 		{
@@ -103,7 +110,10 @@ public class ProdutosController : ControllerBase
 	}
 
 	[HttpPost]
-	public async Task<ActionResult> Post([FromBody] ProdutoDTO produtoDTO)
+    [ProducesResponseType(typeof(ProdutoDTO), StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<ActionResult> Post([FromBody] ProdutoDTO produtoDTO)
 	{
 		try
 		{
@@ -124,6 +134,10 @@ public class ProdutosController : ControllerBase
 	}
 
 	[HttpPut]
+    [ProducesResponseType(typeof(ProdutoDTO), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Put))]
 	public async Task<ActionResult> Put(int id, [FromBody]ProdutoDTO produtoDTO)
 	{
 		try
@@ -145,7 +159,10 @@ public class ProdutosController : ControllerBase
 	}
 
 	[HttpDelete("{id:int:min(1)}")]
-	public async Task<ActionResult> Delete(int id)
+    [ProducesResponseType(typeof(ProdutoDTO), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<ActionResult> Delete(int id)
 	{
 		try
 		{

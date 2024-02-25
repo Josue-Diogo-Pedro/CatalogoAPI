@@ -39,6 +39,8 @@ public class AuthorizeController : ControllerBase
     /// <param name="model">The user objectDTO</param>
     /// <returns>Status code 200 and the token to client</returns>
     [HttpPost("register")]
+    [ProducesResponseType(typeof(ProdutoDTO), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult> RegisterUser([FromBody]UsuarioDTO model)
     {
         if(!ModelState.IsValid) return BadRequest(ModelState.Values.SelectMany(error => error.Errors));
@@ -65,6 +67,8 @@ public class AuthorizeController : ControllerBase
     /// <returns>Status 200 and the token for client</returns>
     /// <remarks>Return status 200 and token by new</remarks>
     [HttpPost("login")]
+    [ProducesResponseType(typeof(ProdutoDTO), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult> Login([FromBody]UsuarioDTO userInfo)
     {
         //Verifica se o modelo é válido

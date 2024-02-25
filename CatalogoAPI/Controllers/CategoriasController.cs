@@ -47,6 +47,8 @@ public class CategoriasController : ControllerBase
     }
 
     [HttpGet("produtos")]
+    [ProducesResponseType(typeof(ProdutoDTO), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<ActionResult<IEnumerable<CategoriaDTO>>> GetCategoriasProdutos()
     {
         try
@@ -63,6 +65,9 @@ public class CategoriasController : ControllerBase
     }
 
     [HttpGet]
+    [ProducesResponseType(typeof(ProdutoDTO), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<ActionResult<IEnumerable<CategoriaDTO>>> Get([FromQuery] CategoriasParameters categoriasParameters)
     {
         try
@@ -102,6 +107,8 @@ public class CategoriasController : ControllerBase
     /// <returns>Categoria Object</returns>
     //[EnableCors("PermitirApiRequest")]
     [HttpGet("{id:int}", Name = "ObterCategoria")]
+    [ProducesResponseType(typeof(ProdutoDTO), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<CategoriaDTO>> GetById(int id)
     {
         try
@@ -134,6 +141,9 @@ public class CategoriasController : ControllerBase
     /// <returns>The object Categoria included</returns>
     /// </remarks>
     [HttpPost]
+    [ProducesResponseType(typeof(ProdutoDTO), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<ActionResult> Post([FromBody]CategoriaDTO categoriaDTO)
     {
         try
@@ -155,6 +165,9 @@ public class CategoriasController : ControllerBase
 
     }
 
+    [ProducesResponseType(typeof(ProdutoDTO), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [HttpPut]
     public async Task<ActionResult> Put(int id, [FromBody]CategoriaDTO categoriaDTO)
     {
@@ -177,6 +190,9 @@ public class CategoriasController : ControllerBase
     }
 
     [HttpDelete("{id:int}")]
+    [ProducesResponseType(typeof(ProdutoDTO), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<ActionResult> Delete(int id)
     {
         try
