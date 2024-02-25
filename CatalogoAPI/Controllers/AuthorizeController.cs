@@ -8,6 +8,7 @@ using System.Text;
 
 namespace CatalogoAPI.Controllers;
 
+[Produces("application/json")]
 [Route("api/[Controller]")]
 [ApiController]
 public class AuthorizeController : ControllerBase
