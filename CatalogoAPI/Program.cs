@@ -40,7 +40,25 @@ builder.Services.AddControllers()
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "CatalogoAPI", Version = "v1" });
+    c.SwaggerDoc("v1", new OpenApiInfo 
+    {
+        
+        Title = "CatalogoAPI", 
+        Version = "v1",
+        Description = "Catálogo de Produtos e Categorias",
+        TermsOfService = new Uri("https://github.com/josue-diogo-pedro"),
+        Contact = new OpenApiContact
+        {
+            Name = "Josué Diogo Pedro",
+            Email = "pedrojosuediogo@gmail.com",
+            Url = new Uri("https://github.com/josue-diogo-pedro")
+        },
+        License = new OpenApiLicense
+        {
+            Name = "Usar sobre LICX",
+            Url = new Uri("https://github.com/josue-diogo-pedro")
+        }
+    });
 
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
     {
