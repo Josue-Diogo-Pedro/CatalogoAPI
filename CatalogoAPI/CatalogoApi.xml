@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>CatalogoAPI</name>
+    </assembly>
+    <members>
+        <member name="M:CatalogoAPI.Controllers.AuthorizeController.RegisterUser(CatalogoAPI.DTOs.UsuarioDTO)">
+            <summary>
+            Register new user
+            </summary>
+            <param name="model">The user objectDTO</param>
+            <returns>Status code 200 and the token to client</returns>
+        </member>
+        <member name="M:CatalogoAPI.Controllers.AuthorizeController.Login(CatalogoAPI.DTOs.UsuarioDTO)">
+            <summary>
+            Verify the credentials of user
+            </summary>
+            <param name="userInfo">Object type usarioDTO</param>
+            <returns>Status 200 and the token for client</returns>
+            <remarks>Return status 200 and token by new</remarks>
+        </member>
+        <member name="M:CatalogoAPI.Controllers.CategoriasController.GetById(System.Int32)">
+            <summary>
+            Bring one Categoria by Id
+            </summary>
+            <param name="id">Code of Categoria</param>
+            <returns>Categoria Object</returns>
+        </member>
+        <member name="M:CatalogoAPI.Controllers.CategoriasController.Post(CatalogoAPI.DTOs.CategoriaDTO)">
+            <summary>
+            Include a new Categoria
+            </summary>
+            <remarks>
+            Request example:
+                POST api/categorias
+                {
+                    "categoriaId": 1,
+                    "nome": "Categoria1",
+                    "imagemUrl": "http://teste.net/1.jpg"
+                }
+            <param name="categoriaDTO">Categoria Object</param>
+            <returns>The object Categoria included</returns>
+            </remarks>
+        </member>
+        <member name="M:CatalogoAPI.Controllers.ProdutosController.Get(CatalogoAPI.Pagination.ProdutosParameters)">
+            <summary>
+            Show the list of products
+            </summary>
+            <param name="produtosParameters">We can pass the number of page and the number of elements that we want to see</param>
+            <returns>List of products</returns>
+        </member>
+        <member name="M:CatalogoAPI.Controllers.ProdutosController.GetById(System.Int32)">
+            <summary>
+            Bring a product by Id
+            </summary>
+            <param name="id">Product code</param>
+            <returns>Product object</returns>
+        </member>
+    </members>
+</doc>

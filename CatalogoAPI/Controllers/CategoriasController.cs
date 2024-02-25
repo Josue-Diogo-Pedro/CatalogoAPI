@@ -93,6 +93,12 @@ public class CategoriasController : ControllerBase
         }
     }
 
+
+    /// <summary>
+    /// Bring one Categoria by Id
+    /// </summary>
+    /// <param name="id">Code of Categoria</param>
+    /// <returns>Categoria Object</returns>
     //[EnableCors("PermitirApiRequest")]
     [HttpGet("{id:int}", Name = "ObterCategoria")]
     public async Task<ActionResult<CategoriaDTO>> GetById(int id)
@@ -112,6 +118,20 @@ public class CategoriasController : ControllerBase
         }
     }
 
+    /// <summary>
+    /// Include a new Categoria
+    /// </summary>
+    /// <remarks>
+    /// Request example:
+    ///     POST api/categorias
+    ///     {
+    ///         "categoriaId": 1,
+    ///         "nome": "Categoria1",
+    ///         "imagemUrl": "http://teste.net/1.jpg"
+    ///     }
+    /// <param name="categoriaDTO">Categoria Object</param>
+    /// <returns>The object Categoria included</returns>
+    /// </remarks>
     [HttpPost]
     public async Task<ActionResult> Post([FromBody]CategoriaDTO categoriaDTO)
     {

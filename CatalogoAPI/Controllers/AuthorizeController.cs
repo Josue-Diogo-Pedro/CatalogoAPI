@@ -32,6 +32,11 @@ public class AuthorizeController : ControllerBase
         return "AuthorizeController :: Acessado em : " + DateTime.Now.ToLongDateString();
     }
 
+    /// <summary>
+    /// Register new user
+    /// </summary>
+    /// <param name="model">The user objectDTO</param>
+    /// <returns>Status code 200 and the token to client</returns>
     [HttpPost("register")]
     public async Task<ActionResult> RegisterUser([FromBody]UsuarioDTO model)
     {
@@ -52,6 +57,12 @@ public class AuthorizeController : ControllerBase
         return Ok(GeraToken(model));
     }
 
+    /// <summary>
+    /// Verify the credentials of user
+    /// </summary>
+    /// <param name="userInfo">Object type usarioDTO</param>
+    /// <returns>Status 200 and the token for client</returns>
+    /// <remarks>Return status 200 and token by new</remarks>
     [HttpPost("login")]
     public async Task<ActionResult> Login([FromBody]UsuarioDTO userInfo)
     {

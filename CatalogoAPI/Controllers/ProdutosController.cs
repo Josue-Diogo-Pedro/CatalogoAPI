@@ -28,6 +28,11 @@ public class ProdutosController : ControllerBase
 	[HttpGet("menor-preco")]
 	public async Task<IEnumerable<ProdutoDTO>> GetProdutosPreco() => _mapper.Map<IEnumerable<ProdutoDTO>>(await _uow.ProdutoRepository.GetProdutosPorPreco());
 
+	/// <summary>
+	///	Show the list of products
+	/// </summary>
+	/// <param name="produtosParameters">We can pass the number of page and the number of elements that we want to see</param>
+	/// <returns>List of products</returns>
 	[HttpGet]
 	[ServiceFilter(typeof(ApiLoggingFilter))]
 	public async Task<ActionResult<IEnumerable<ProdutoDTO>>> Get([FromQuery]ProdutosParameters produtosParameters)
@@ -71,6 +76,11 @@ public class ProdutosController : ControllerBase
 		return produtoDTO;
 	}
 
+	/// <summary>
+	/// Bring a product by Id
+	/// </summary>
+	/// <param name="id">Product code</param>
+	/// <returns>Product object</returns>
 	//public async Task<ActionResult<Produto>> GetById8(int id, [BindRequired]string nome)
 	[HttpGet("{id:int:min(1)}", Name = "ObterProduto")]
 	public async Task<ActionResult<ProdutoDTO>> GetById(int id)
