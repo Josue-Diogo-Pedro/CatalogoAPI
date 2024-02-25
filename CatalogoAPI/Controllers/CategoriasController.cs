@@ -6,7 +6,6 @@ using CatalogoAPI.Repository;
 using CatalogoAPI.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
@@ -142,7 +141,7 @@ public class CategoriasController : ControllerBase
     [ProducesResponseType(typeof(ProdutoDTO), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<ActionResult> Post([FromBody]CategoriaDTO categoriaDTO)
+    public async Task<ActionResult> Post([FromBody] CategoriaDTO categoriaDTO)
     {
         try
         {
@@ -167,7 +166,7 @@ public class CategoriasController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [HttpPut]
-    public async Task<ActionResult> Put(int id, [FromBody]CategoriaDTO categoriaDTO)
+    public async Task<ActionResult> Put(int id, [FromBody] CategoriaDTO categoriaDTO)
     {
         try
         {
