@@ -15,7 +15,7 @@ namespace CatalogoAPI.Controllers;
 [Produces("application/json")]
 [Route("api/[controller]")]
 [ApiController]
-//[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 //[EnableCors("PermitirApiRequest")]
 public class CategoriasController : ControllerBase
 {
