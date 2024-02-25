@@ -21,14 +21,12 @@ public class CategoriasController : ControllerBase
 {
     private readonly IUnitOfWork _uow;
     private readonly IConfiguration _Configutation;
-    private readonly ILogger _logger;
     private readonly IMapper _mapper;
 
-    public CategoriasController(IUnitOfWork uow, IConfiguration configuration, ILogger<CategoriasController> logger, IMapper mapper)
+    public CategoriasController(IUnitOfWork uow, IConfiguration configuration, IMapper mapper)
     {
         _uow = uow;
         _Configutation = configuration;
-        _logger = logger;
         _mapper = mapper;
     }
 
@@ -53,7 +51,7 @@ public class CategoriasController : ControllerBase
     {
         try
         {
-            _logger.LogInformation("============== ======================== GET CategoriasProduto =============");
+            //_logger.LogInformation("============== ======================== GET CategoriasProduto =============");
             var categorias = await _uow.CategoriaRepository.GetCategoriasProdutos();
 
             return _mapper.Map<List<CategoriaDTO>>(categorias);
@@ -72,7 +70,7 @@ public class CategoriasController : ControllerBase
     {
         try
         {
-            _logger.LogInformation("============== ======================== GET Categorias =============");
+            //_logger.LogInformation("============== ======================== GET Categorias =============");
 
             var categorias = await _uow.CategoriaRepository.GetCategorias(categoriasParameters);
             if (categorias is null)
