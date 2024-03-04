@@ -9,13 +9,13 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Versioning;
+using Microsoft.AspNetCore.OData;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
 using System.Text;
 using System.Text.Json.Serialization;
-
 
 #region Injeção de Dependência
 
@@ -41,10 +41,10 @@ builder.Services.AddControllers()
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new OpenApiInfo 
+    c.SwaggerDoc("v1", new OpenApiInfo
     {
-        
-        Title = "CatalogoAPI", 
+
+        Title = "CatalogoAPI",
         Version = "v1",
         Description = "Catálogo de Produtos e Categorias",
         TermsOfService = new Uri("https://github.com/josue-diogo-pedro"),
@@ -139,6 +139,8 @@ builder.Services.AddAuthentication(
             ValidateIssuerSigningKey = true,
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
         });
+
+builder.Services.AddODataQueryFilter();
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<ApiLoggingFilter>();
