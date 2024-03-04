@@ -21,5 +21,17 @@ public class CategoriaQuery : ObjectGraphType
 				var id = context.GetArgument<int>("id");
 				return await _context.CategoriaRepository.GetById(c => c.CategoriaId == id);
 			});
-	}
+
+
+		//Nosso método vai retornar uma lista do objecto categoria
+		//aqui resolve vai mapear a requisição do cliente com os dados
+		//da consulta Get definida na CategoriaRepository
+		Field<ListGraphType<CategoriaType>>("categorias")
+			.Resolve(context =>
+			{
+				return _context.CategoriaRepository.Get();
+			});
+
+
+    }
 }
