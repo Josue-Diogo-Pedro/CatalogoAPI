@@ -11,7 +11,7 @@ using Newtonsoft.Json;
 
 namespace CatalogoAPI.Controllers;
 
-[Produces("application/json")]
+//[Produces("application/json")]
 [Route("api/[controller]")]
 [ApiController]
 //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
@@ -194,11 +194,17 @@ public class CategoriasController : ControllerBase
     {
         try
         {
-            var categoriaDTO = _mapper.Map<CategoriaDTO>(_uow.CategoriaRepository.GetById(p => p.CategoriaId == id));
-            if (categoriaDTO is null)
-                return NotFound("Produto não encontrado...");
+            //var categoriaDTO = _mapper.Map<CategoriaDTO>(_uow.CategoriaRepository.GetById(p => p.CategoriaId == id));
+            
+            var categoria = await _uow.CategoriaRepository.GetById(category => category.CategoriaId == id);
 
-            var categoria = _mapper.Map<Categoria>(categoriaDTO);
+            //if (categoriaDTO is null)
+            //    return NotFound("Produto não encontrado...");
+
+            if (categoria is null) return NotFound("Produto não encontrado...");
+
+            //var categoria = _mapper.Map<Categoria>(categoriaDTO);
+
             _uow.CategoriaRepository.Delete(categoria);
             await _uow.Commit();
 
